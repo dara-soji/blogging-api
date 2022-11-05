@@ -1,5 +1,7 @@
 const buildDevLogger = require('./dev-logger')
 const buildProdLogger = require('./prod.logger')
+require('dotenv').config()
+
 
 let logger = null;
 
