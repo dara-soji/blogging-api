@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 require("dotenv").config()
 
-const logger = require("../logger/dev-logger")
+const logger = require("../logger")
 
 const MONGODB_URL = process.env.MONGODB_URL
 

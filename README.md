@@ -36,7 +36,7 @@ This is an api for a Blogging app. It is an exam given to us by AltSchool Africa
 
 ---
 ## Base URL
-- somehostsite.com
+- https://altschool-blogging-app.herokuapp.com/
 
 
 ## Models
