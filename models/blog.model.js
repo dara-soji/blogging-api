@@ -12,7 +12,7 @@ const BlogSchema = new Schema({
   user_id: String,
   author: String,
   read_count: {type: Number, default: 0},
-  reading_time: {type: String, default: '0 minute'},
+  reading_time: {type: Number, default: 0},
   tags: {type: Array, default: []},
   timestamp: {type: Date, default: moment()},
   body: {type: String, required: true },

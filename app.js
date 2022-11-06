@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("*", (req, res)=>{
-    res.status(404).send("route not found")
+    res.status(404).json({message: "route not found"})
   })
 
 module.exports = app
