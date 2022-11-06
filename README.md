@@ -46,26 +46,28 @@ This is an api for a Blogging app. It is an exam given to us by AltSchool Africa
 | field  |  data_type | constraints  |
 |---|---|---|
 |  id |  string |  required |
-|  username |  string |  required |
-|  firstname | string  |  optional|
-|  lastname  |  string |  optional  |
-|  email     | string  |  optional |
+|  username |  string |  optional |
+|  first_name | string  |  required|
+|  last_name  |  string |  required  |
+|  email     | string  |  required |
 |  password |   string |  required  |
-|  user_type |  string |  required, default: user, enum: ['user', 'admin'] |
 
 
-### Order
+### Blog
 | field  |  data_type | constraints  |
 |---|---|---|
 |  id |  string |  required |
 |  created_at |  date |  required |
-|  state | number  |  required,default:1|
-|  total_price  |  number |  required  |
-|  items     | array  |  required |
-|  item.name |   string |  required  |
-|  item.price |  number |  required |
-|  item.size |  string |  required, enum: ['m', 's', 'l'] |
-|  item.quantity |  number |  required, enum: ['m', 's', 'l'] |
+|  state | number  |  required,default:'draft', enum: ['draft', 'published'|
+|  title  |  string |  required, unique  |
+|  user_id     | string  |  required |
+|  auther|   string |    |
+|  read_count |  number |  required |
+|  reading_time |  number |  required |
+|  tags |  array |   |
+|  timestamp |  date | required  |
+|  body |  string | required  |
+|  description |  string | required  |
 
 
 
@@ -74,16 +76,16 @@ This is an api for a Blogging app. It is an exam given to us by AltSchool Africa
 
 ### Signup User
 
-- Route: /signup
+- Route: /api/v1/auth/signup
 - Method: POST
 - Body: 
 ```
 {
-  "email": "doe@example.com",
-  "password": "Password1",
-  "firstname": "jon",
-  "lastname": "doe",
-  "username": 'jon_doe",
+    "email": "dara@example.com",
+    "password": "Passweeqd1",
+    "first_name": "dara",
+    "last_name": "xamp",
+    "username": "dara_xamp"
 }
 ```
 
@@ -92,26 +94,33 @@ This is an api for a Blogging app. It is an exam given to us by AltSchool Africa
 Success
 ```
 {
-    message: 'Signup successful',
-    user: {
-        "email": "doe@example.com",
-        "password": "Password1",
-        "firstname": "jon",
-        "lastname": "doe",
-        "username": 'jon_doe",
+  "status": "User successfully created",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjZmMjVlOWI0OTEwMmE4YTJmMGFlNCIsImlhdCI6MTY2NzY5MTEwMiwiZXhwIjoxNjY3Njk0NzAyfQ.aO_lNgtmXYbzOyo2AMEzehdcsHnqJKcF8wC-XcWbhFM",
+    "data": {
+      "created_at": "2022-11-05T23:15:25.650Z",
+      "lastUpdateAt": "2022-11-05T23:15:25.650Z",
+      "email": "daras@example.com",
+      "first_name": "dara",
+      "last_name": "xamp",
+      "password": "$2a$10$BYzOFOomR9iufsxab4c9Je4AORXqhE/0hrntB8/RjD8s/Osu2lo4q",
+      "username": "dara_xampler",
+      "_id": "6366f25e9b49102a8a2f0ae4",
+      "__v": 0
     }
+  }
 }
 ```
 ---
 ### Login User
 
-- Route: /login
+- Route: /api/v1/auth/login
 - Method: POST
 - Body: 
 ```
 {
-  "password": "Password1",
-  "username": 'jon_doe",
+    "email": "daras@example.com",
+    "password": "Passweeqd1"
 }
 ```
 
@@ -120,22 +129,27 @@ Success
 Success
 ```
 {
-    message: 'Login successful',
-    token: 'sjlkafjkldsfjsd'
+  "message": "successfully signed in",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjZmMjVlOWI0OTEwMmE4YTJmMGFlNCIsImlhdCI6MTY2NzY5MTMwMSwiZXhwIjoxNjY3Njk0OTAxfQ.evJeHzvZjzMx_YRXyW80uFEWqh_H2A6OvSCTMkNqed0"
 }
 ```
 
 ---
-### Create Order
+### Create Blog
 
-- Route: /orders
+- Route: /api/v1/blogs
 - Method: POST
 - Header
     - Authorization: Bearer {token}
 - Body: 
 ```
 {
-    items: [{ name: 'chicken pizza', price: 900, size: 'm', quantity: 1}]
+  "title": "kevvin boy",
+  "author": "ade",
+  "tags": ["look", "God", "Dey"],
+  "body": "Lociatis totam, id odit blaluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendisnditiis veritatis sunt tempore!",
+  "description": "rem ipsum  sit amet consectetur adipisicing elit. Vpi"
+  
 }
 ```
 
@@ -144,41 +158,75 @@ Success
 Success
 ```
 {
-    state: 1,
-    total_price: 900,
-    created_at: Mon Oct 31 2022 08:35:00 GMT+0100,
-    items: [{ name: 'chicken pizza', price: 900, size: 'm', quantity: 1}]
+  "message": "Blog successfully crested",
+  "blog": {
+    "created_at": "2022-11-05T23:34:51.760Z",
+    "state": "draft",
+    "title": "kevvffgxgin boy",
+    "user_id": "6366f25e9b49102a8a2f0ae4",
+    "author": "ade",
+    "read_count": 0,
+    "reading_time": "0 minute",
+    "tags": [
+      "look",
+      "God",
+      "Dey"
+    ],
+    "timestamp": "2022-11-05T23:34:51.761Z",
+    "body": "Lociatis totam, id odit blaluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendisnditiis veritatis sunt tempore!",
+    "description": "rem ipsum  sit amet consectetur adipisicing elit. Vpi",
+    "_id": "6366f3e9faee143b9d0c3598",
+    "__v": 0
+  }
 }
 ```
 ---
-### Get Order
+### Get Blog
 
-- Route: /orders/:id
+- Route: /api/v1/blogs/blog/:id
 - Method: GET
-- Header
-    - Authorization: Bearer {token}
 - Responses
 
 Success
 ```
 {
-    state: 1,
-    total_price: 900,
-    created_at: Mon Oct 31 2022 08:35:00 GMT+0100,
-    items: [{ name: 'chicken pizza', price: 900, size: 'm', quantity: 1}]
+  "message": "Here is your blog",
+  "data": {
+    "_id": "6366f3e9faee143b9d0c3598",
+    "created_at": "2022-11-05T23:34:51.760Z",
+    "state": "draft",
+    "title": "kevvffgxgin boy",
+    "user_id": "6366f25e9b49102a8a2f0ae4",
+    "author": "ade",
+    "read_count": 1,
+    "reading_time": "0 minute5 minutes",
+    "tags": [
+      "look",
+      "God",
+      "Dey"
+    ],
+    "timestamp": "2022-11-05T23:40:43.732Z",
+    "body": "Lociatis totam, id odit blaluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendisnditiis veritatis sunt tempore!",
+    "description": "rem ipsum  sit amet consectetur adipisicing elit. Vpi",
+    "__v": 0
+  },
+  "authorInfo": {
+    "email": "daras@example.com",
+    "first_name": "dara",
+    "last_name": "xamp",
+    "username": "dara_xampler"
+  }
 }
 ```
 ---
 
-### Get Orders
+### Get All Blogs
 
-- Route: /orders
+- Route: /api/v1/blogs
 - Method: GET
-- Header:
-    - Authorization: Bearer {token}
 - Query params: 
     - page (default: 1)
-    - per_page (default: 10)
+    - per_page (default: 20)
     - order_by (default: created_at)
     - order (options: asc | desc, default: desc)
     - state
@@ -187,11 +235,158 @@ Success
 
 Success
 ```
+[{
+  "message": "Here is your blog",
+  "data": {
+    "_id": "6366f3e9faee143b9d0c3598",
+    "created_at": "2022-11-05T23:34:51.760Z",
+    "state": "draft",
+    "title": "kevvffgxgin boy",
+    "user_id": "6366f25e9b49102a8a2f0ae4",
+    "author": "ade",
+    "read_count": 1,
+    "reading_time": "0 minute5 minutes",
+    "tags": [
+      "look",
+      "God",
+      "Dey"
+    ],
+    "timestamp": "2022-11-05T23:40:43.732Z",
+    "body": "Lociatis totam, id odit blaluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendisnditiis veritatis sunt tempore!",
+    "description": "rem ipsum  sit amet consectetur adipisicing elit. Vpi",
+    "__v": 0
+  },
+  "authorInfo": {
+    "email": "daras@example.com",
+    "first_name": "dara",
+    "last_name": "xamp",
+    "username": "dara_xampler"
+  }
+}]
+```
+---
+### Get Owner's Blogs
+
+- Route: /api/v1/blogs/myblogs
+- Method: GET
+- Header:
+    - Authorization: Bearer {token}
+- Query params: 
+    - page (default: 1)
+    - per_page (default: 20)
+    - order_by (default: created_at)
+    - order (options: asc | desc, default: desc)
+    - state
+    - created_at
+- Responses
+
+Success
+```
+[{
+  "message": "Here is your blog",
+  "data": {
+    "_id": "6366f3e9faee143b9d0c3598",
+    "created_at": "2022-11-05T23:34:51.760Z",
+    "state": "draft",
+    "title": "kevvffgxgin boy",
+    "user_id": "6366f25e9b49102a8a2f0ae4",
+    "author": "ade",
+    "read_count": 1,
+    "reading_time": "0 minute5 minutes",
+    "tags": [
+      "look",
+      "God",
+      "Dey"
+    ],
+    "timestamp": "2022-11-05T23:40:43.732Z",
+    "body": "Lociatis totam, id odit blaluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendisnditiis veritatis sunt tempore!",
+    "description": "rem ipsum  sit amet consectetur adipisicing elit. Vpi",
+    "__v": 0
+  },
+  "authorInfo": {
+    "email": "daras@example.com",
+    "first_name": "dara",
+    "last_name": "xamp",
+    "username": "dara_xampler"
+  }
+}]
+```
+---
+### Publish Blog
+
+- Route: /api/v1/blogs/publish/:id
+- Method: PATCH
+- Header:
+    - Authorization: Bearer {token}
+- Responses
+
+Success
+```
 {
-    state: 1,
-    total_price: 900,
-    created_at: Mon Oct 31 2022 08:35:00 GMT+0100,
-    items: [{ name: 'chicken pizza', price: 900, size: 'm', quantity: 1}]
+  "message": "Your Blog has been succesfully Published",
+  "data": {
+    "_id": "6366f3e9faee143b9d0c3598",
+    "created_at": "2022-11-05T23:34:51.760Z",
+    "state": "published",
+    "title": "kevvffgxgin boy",
+    "user_id": "6366f25e9b49102a8a2f0ae4",
+    "author": "ade",
+    "read_count": 1,
+    "reading_time": "0 minute5 minutes",
+    "tags": [
+      "look",
+      "God",
+      "Dey"
+    ],
+    "timestamp": "2022-11-05T23:40:43.732Z",
+    "body": "Lociatis totam, id odit blaluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendisluptatem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendiem eos, perferendisnditiis veritatis sunt tempore!",
+    "description": "rem ipsum  sit amet consectetur adipisicing elit. Vpi",
+    "__v": 0
+  }
+}
+```
+---
+### Update Blog
+
+- Route: /api/v1/blogs/:id
+- Method: PATCH
+- Header:
+    - Authorization: Bearer {token}
+- Responses
+
+Success
+```
+{
+  "_id": "6366f3e9faee143b9d0c3598",
+  "created_at": "2022-11-05T23:34:51.760Z",
+  "state": "published",
+  "title": "atestjkbk for delet",
+  "user_id": "6366f25e9b49102a8a2f0ae4",
+  "author": "test",
+  "read_count": 1,
+  "tags": [
+    "bus",
+    "sand"
+  ],
+  "timestamp": "2022-11-05T23:55:51.919Z",
+  "body": "Lociatis totam, id odit blaluptatem eos, perferen!",
+  "description": "rem ipsum dolor sit amet consectetur adipisicing elit. Vpi",
+  "__v": 0
+}
+```
+---
+### Delete Blog
+
+- Route: /api/v1/blogs/:id
+- Method: DELETE
+- Header:
+    - Authorization: Bearer {token}
+- Responses
+
+Success
+```
+{
+  "message": "Blog with id: 6366f3e9faee143b9d0c3598 has been deleted"
 }
 ```
 ---

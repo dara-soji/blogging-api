@@ -112,7 +112,7 @@ const getABlog = async (req, res) =>{
         let lastRead = blog.timestamp;
         let now = moment();
         let timeRead = now.diff(lastRead, 'minutes');
-        blog.reading_time = `${blog.reading_time + timeRead} minutes`
+        blog.reading_time+=timeRead
         blog.read_count++
         blog.timestamp = moment()
         blog.save()

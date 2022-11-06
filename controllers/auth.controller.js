@@ -65,13 +65,10 @@ const login = async (req, res) => {
         const token = await generateToken(user._id)
 
           
-          user.token = token;
-          let authUser = Object.assign({}, user._doc)
-
-          authUser.token = token;
+         
 
           
-        res.status(200).send({message: "successfully signed in", data: authUser})
+        res.status(200).send({message: "successfully signed in", token})
     }catch(err){
         logger.info(err)
     }
