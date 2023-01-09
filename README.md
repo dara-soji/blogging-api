@@ -1,4 +1,4 @@
-# Pizza App
+# Blogging API
 This is an api for a Blogging app. It is an exam given to us by AltSchool Africa.
 
 ---
